@@ -1,0 +1,37 @@
+{% extends "blog/base.xhtml" %}
+
+<!-- for title -->
+{% block title %} 
+
+    My blog 
+
+{% endblock %}
+
+<!-- main block content -->
+
+{% block content %}
+
+    <h2>MY Blog </h2>
+    {% for post in posts %}
+        
+        <h2>
+            <a href="{{ post.get_absolute_url }}"> {{ post.title }} </a>
+            
+        </h2>
+        <p class = "date">
+            Published {{ post.Published }} by {{ post.author }}
+        </p>
+        {{ post.body | truncatewords:30 | linebreaks }}
+
+    {% endfor %}
+
+    <!-- Listbased generic view pass  page_obj -->
+
+    {% include "pagination.xhtml" with page=page_obj %}
+
+    <!-- used for function based view -->
+    <!-- {% include "pagination.xhtml" with page=posts %} -->
+
+
+{% endblock %}
+
