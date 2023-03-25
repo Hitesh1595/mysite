@@ -9,7 +9,7 @@ from django.views.generic import ListView
 
 from blog.models import Post
 
-from blog.forms import EmailPostForm
+from blog.forms import EmailPostForm,CommentForm
 from django.core.mail import send_mail
 
 def post_share(request,post_id):
@@ -82,7 +82,38 @@ def post_detail(request,year,month,day,post):
                              publish__month = month,
                              publish__day = day,
                              slug = post)
+    # list of active comment for the post
+    comments = post.comments.filter(active = True)
+
+    # form for users to comment
+    form = CommentForm()
     
     
-    return render(request,'blog/post/detail.xhtml', {"post":post})
+    return render(request,'blog/post/detail.xhtml', {"post":post,'comments':comments,'form':form})
+
+
+from django.views.decorators.http import require_POST
+
+@require_POST
+def post_comment(request,post_id):
+    post = get_object_or_404(Post,id = post_id,status = Post.Status.PUBLISHED)
+    comment = None
+
+    # a comment was posted
+    form = CommentForm(data = request.POST)
+    if form.is_valid():
+        # create a comment object without saving into data base
+        comment = form.save(commit = False)
+        # Assign the post to the comment
+        comment.post = post
+        # Save the comment to the database
+        comment.save()
+    
+    context = {
+        'post':post,
+        'form':form,
+        'comment':comment
+    }
+
+    return render(request,'blog/post/comment.xhtml',context=context)
 
