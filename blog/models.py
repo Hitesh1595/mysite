@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
+from taggit.managers import TaggableManager
+
 
 # Create your models here.
 
@@ -16,6 +18,9 @@ class Post(models.Model):
     class Status(models.TextChoices):
         DRAFT = "DF", "DRAFT"
         PUBLISHED = "PB", "PUBLISHED"
+    
+    
+
 
     title = models.CharField(max_length=250)
     slug = models.SlugField(
@@ -45,8 +50,10 @@ class Post(models.Model):
     # our custom manager
     published = PublishManager()
 
+    tags = TaggableManager()
+
     class Meta:
-        ordering = ["-publish"]
+        ordering = ["publish"]
 
         # NOTE
         # index will increase the performance for query filtering results by field

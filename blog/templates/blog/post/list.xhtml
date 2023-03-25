@@ -1,4 +1,5 @@
 {% extends "blog/base.xhtml" %}
+{% load blog_tags %}
 
 <!-- for title -->
 {% block title %} 
@@ -12,6 +13,12 @@
 {% block content %}
 
     <h2>MY Blog </h2>
+
+    {% if tag %}
+        <h2> Posts tagged with "{{ tag.name }}"</h2>
+    {% endif %}
+
+
     {% for post in posts %}
         
         <h2>
@@ -19,19 +26,32 @@
             <a href="{{ post.get_absolute_url }}"> {{ post.title }} </a>
             
         </h2>
+
+        <!-- tags -->
+        <p class="tags">
+            Tags: 
+            {% for tag in post.tags.all %}
+                    <a href="{% url 'blog:post_list_by_tag' tag.slug %}">{{ tag.name }}</a>
+                {% if not forloop.last %},{% endif %}
+
+           {% endfor %}
+        
+        </p>
+
         <p class = "date">
             Published {{ post.Published }} by {{ post.author }}
         </p>
-        {{ post.body | truncatewords:30 | linebreaks }}
+        {{ post.body | markdown | truncatewords_html:30 }}
 
     {% endfor %}
 
-    <!-- Listbased generic view pass  page_obj -->
+    <!-- Listbased generic view pass page_obj -->
 
-    {% include "pagination.xhtml" with page=page_obj %}
+    <!-- {% include "pagination.xhtml" with page=page_obj %} -->
 
     <!-- used for function based view -->
-    <!-- {% include "pagination.xhtml" with page=posts %} -->
+    
+    {% include "pagination.xhtml" with page=posts %}
 
 
 {% endblock %}

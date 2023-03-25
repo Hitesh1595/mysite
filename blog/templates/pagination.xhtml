@@ -3,15 +3,6 @@
         {% if page.has_previous %}
         <a href="?page={{ page.previous_page_number }}" > Previous </a>
         {% endif %}
-
-        <!-- {% for i in page.paginator.page_range %}
-            {% if page.number == i%}
-                <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
-            {% else %}
-            <li class="page-item "><a class="page-link" href="?page={{i}}">{{i}}</a></li>
-            {% endif %}
-        {% endfor %} -->
-
         <span class="current">
             {% if page.number %}
             Page {{ page.number }} of {{ page.paginator.num_pages }}.
@@ -24,9 +15,9 @@
 </div>
 
 
-<!-- 
-<nav class="mt-4" aria-label="Page navigation sample">
-    {% if products.has_other_pages %}
+
+<!-- <nav class="mt-4" aria-label="Page navigation sample"> -->
+    <!-- {% if products.has_other_pages %}
         <ul class="pagination">
 
             {% if products.has_previous %}
@@ -51,5 +42,5 @@
             {% endif %}
 
         </ul>
-  {% endif %}
-</nav> -->
+  {% endif %} -->
+<!-- </nav> -->

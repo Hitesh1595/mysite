@@ -1,3 +1,5 @@
+{% load blog_tags %}
+<!-- custom template tags -->
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -18,7 +20,24 @@
     </div>
     <div id = "sidebar">
         <h2> MY blog </h2>
-        <p> This is my blog</p>
+        <p> This is my blog
+        i have written {% total_posts %} post so far
+        </p>
+        <!-- inclusion tag is used -->
+        <h3>Latest posts</h3>
+        {% show_latest_posts 3 %}
+
+        <!-- most commented posts -->
+        <h3>Most commented Post</h3>
+        {% get_most_commented_posts 5 as most_commented_posts %}
+        <ul>
+            {% for post in most_commented_posts  %}
+                <li>
+                    <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+
     </div>
     
 </body>
