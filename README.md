@@ -21,6 +21,8 @@ basic functionality -- postlist(generic list view/simple list view)
                     --paginator
 		    
                     --rssfeed integration
+		    
+		    -- email (share the email)
                     
 additional app --- taggit
 
